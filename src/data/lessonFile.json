@@ -1,0 +1,112 @@
+{
+    "lesson": [
+        {
+            "idCourse": "1",
+            "nameLesson": "Структуры данных Python",
+            "contentLesson": "Математические операции, Работа со строками, Строки, списки, кортежи, последовательности",
+            "numberLesson": "1"
+        },
+        {
+            "idCourse": "1",
+            "nameLesson": "Функциональное программирование",
+            "contentLesson": "Функции, Функции и лямбда функции, Список из функций",
+            "numberLesson": "2"
+        },
+        {
+            "idCourse": "1",
+            "nameLesson": "Основы системного программирования",
+            "contentLesson": "Шифрование и работа со строками",
+            "numberLesson": "3"
+        },
+        {
+            "idCourse": "1",
+            "nameLesson": "Объектно-ориентированное программирование – классы, объекты, наследование",
+            "contentLesson": "Классы и методы, Множественное наследование",
+            "numberLesson": "4"
+        },
+        {
+            "idCourse": "1",
+            "nameLesson": "Объектно-ориентированное программирование – декораторы и генераторы",
+            "contentLesson": "Рубежное тестирование",
+            "numberLesson": "5"
+        },
+        {
+            "idCourse": "2",
+            "nameLesson": "Введение в функциональное программирование и формальные основания функционального программирования",
+            "contentLesson": "Введение",
+            "numberLesson": "1"
+        },
+        {
+            "idCourse": "2",
+            "nameLesson": "Базовые синтаксические конструкции, типы, символы и списки в языке Lisp",
+            "contentLesson": "Типы в Lisp",
+            "numberLesson": "2"
+        },
+        {
+            "idCourse": "2",
+            "nameLesson": "Ввод и вывод в языке Lisp",
+            "contentLesson": "Ввод и вывод в языке Lisp",
+            "numberLesson": "3"
+        },
+        {
+            "idCourse": "2",
+            "nameLesson": "Функции высших порядков",
+            "contentLesson": "Функции высших порядков",
+            "numberLesson": "4"
+        },
+        {
+            "idCourse": "3",
+            "nameLesson": "Введение в веб-технологии",
+            "contentLesson": "Знакомство",
+            "numberLesson": "1"
+        },
+        {
+            "idCourse": "3",
+            "nameLesson": "Знакомство с HTML",
+            "contentLesson": "Структура HTML-документа, Разметка текста с помощью HTML, Ссылки и изображения",
+            "numberLesson": "2"
+        },
+        {
+            "idCourse": "3",
+            "nameLesson": "Знакомство с CSS",
+            "contentLesson": "Знакомство с CSS, Селекторы, Наследование и каскадирование",
+            "numberLesson": "3"
+        },
+        {
+            "idCourse": "3",
+            "nameLesson": "Разметка",
+            "contentLesson": "Знакомство с таблицами , Знакомство с формами",
+            "numberLesson": "4"
+        },
+        {
+            "idCourse": "4",
+            "nameLesson": "Философия Python. Введение в программирование. Интерпретируемые языки программированмия. Интерпретатор. IDE",
+            "contentLesson": "Введение",
+            "numberLesson": "1"
+        },
+        {
+            "idCourse": "4",
+            "nameLesson": "Переменные, основные типы данных",
+            "contentLesson": "Переменные, основные типы данных",
+            "numberLesson": "2"
+        },
+        {
+            "idCourse": "4",
+            "nameLesson": "Основы структур данных",
+            "contentLesson": "Основы структур данных",
+            "numberLesson": "3"
+        },
+        {
+            "idCourse": "4",
+            "nameLesson": "Процедурное программирование. Понятие функции. Встроенная библиотека",
+            "contentLesson": "Процедуры, Функции, Библиотеки ",
+            "numberLesson": "4"
+        },
+        {
+            "idCourse": "4",
+            "nameLesson": "Элементы функционального программирования",
+            "contentLesson": "Функциональное программирование",
+            "numberLesson": "5"
+        }
+    ]
+}
