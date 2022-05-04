@@ -1,31 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Курсы{% endblock %}
+{% block title %}StudyOn{% endblock %}
 
 {% block body %}
-    <h1>Доступные курсы</h1>
+    <h1 class="fw-bold mb-5 mt-1">Курсы</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Название курса</th>
-                <th>Описание курса</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for course in courses %}
-            <tr>
-                <td><a href="{{ path('app_course_show', {'id': course.id}) }}">{{ course.nameCourse }}</a></td>
-                <td>{{ course.descriptionCourse }}</td>
-            </tr>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ course.nameCourse }}</h4>
+                        <p class="card-text">{{ course.descriptionCourse }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ path('app_course_show', {'id': course.id}) }}" class="btn btn-primary w-10"><strong>Перейти</strong></a>
+                    </div>
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+            <p class=card-text">Курсов не найдено =(</p>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <hr>
-    <a href="{{ path('app_course_new') }}">Новый курс</a>
+    </div>
+    <hr class="mt-5">
+    <a href="{{ path('app_course_new') }}" type="button" class="btn btn-secondary mb-5"><strong>Новый курс</strong></a>
 {% endblock %}

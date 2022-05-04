@@ -33,3 +33,12 @@ services:
       - COMPOSER_ALLOW_SUPERUSER=1
     links:
       - postgres
+  node:
+    image: node:alpine
+    environment:
+      - NPM_CACHE_FOLDER=/npm
+    working_dir: /app
+    user: ${UID:-1000}:${GID:-1000}
+    volumes:
+      - .:/app
+      - ${HOME}/.npm:/npm

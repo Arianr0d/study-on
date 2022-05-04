@@ -9,6 +9,12 @@ up:
 down:
 	@${COMPOSE} down
 
+encore_dev:
+	@${COMPOSE} run node npm run dev
+
+encore_prod:
+	@${COMPOSE} run node npm run production
+
 clear:
 	@${CONSOLE} cache:clear
 
