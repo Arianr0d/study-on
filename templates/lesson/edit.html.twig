@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Lesson{% endblock %}
+{% block title %}Редактирование урока "{{ lesson.nameLesson }}"{% endblock %}
 
 {% block body %}
-    <h1>Edit Lesson</h1>
+    <h1>Редактировать урок</h1>
 
     {{ include('lesson/_form.html.twig', {'button_label': 'Update'}) }}
 

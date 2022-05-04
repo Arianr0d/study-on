@@ -1,34 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Course{% endblock %}
+{% block title %}{{ course.nameCourse }}{% endblock %}
 
 {% block body %}
-    <h1>Course</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ course.id }}</td>
-            </tr>
-            <tr>
-                <th>CodeCourse</th>
-                <td>{{ course.codeCourse }}</td>
-            </tr>
-            <tr>
-                <th>NameCourse</th>
-                <td>{{ course.nameCourse }}</td>
-            </tr>
-            <tr>
-                <th>DescriptionCourse</th>
-                <td>{{ course.descriptionCourse }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h1>{{ course.nameCourse }}</h1>
+    <p>{{ course.descriptionCourse }}</p>
 
-    <a href="{{ path('app_course_index') }}">back to list</a>
+    <h1>Уроки</h1>
+    {% for lesson in course.lessons %}
+        <p>{{ loop.index }}. <a href="{{ path('app_lesson_show', {'id': lesson.id}) }}">{{ lesson.nameLesson }}</a></p>
+    {% endfor %}
+    <br>
 
-    <a href="{{ path('app_course_edit', {'id': course.id}) }}">edit</a>
+    <a href="{{ path('app_course_index') }}">К списку курсов</a>
+    <a href="{{ path('app_course_edit', {'id': course.id}) }}">Редактировать курс</a>
+    {#<a href="{{ path('app_lesson_new', {'course': course}) }}">Добавить урок</a>#}
 
     {{ include('course/_delete_form.html.twig') }}
 {% endblock %}
