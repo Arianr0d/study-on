@@ -1,21 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ course.nameCourse }}{% endblock %}
+{% block title %}{{ course.nameCourse }} / StudyOn {% endblock %}
 
 {% block body %}
-
-    <h1>{{ course.nameCourse }}</h1>
+    <h1 class="fw-bold mb-2 mt-5">{{ course.nameCourse }}</h1>
     <p>{{ course.descriptionCourse }}</p>
 
     <h1>Уроки</h1>
-    {% for lesson in course.lessons %}
-        <p>{{ loop.index }}. <a href="{{ path('app_lesson_show', {'id': lesson.id}) }}">{{ lesson.nameLesson }}</a></p>
-    {% endfor %}
-    <br>
+    <ul class="list-group">
+        {% for lesson in course.lessons %}
+            <li class="list-group-item">
+                {{ loop.index }}. <a class="text-decoration-none m-2"
+                   href="{{ path('app_lesson_show', {'id': lesson.id}) }}">{{ lesson.nameLesson }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <hr class="mt-5">
 
-    <a href="{{ path('app_course_index') }}">К списку курсов</a>
-    <a href="{{ path('app_course_edit', {'id': course.id}) }}">Редактировать курс</a>
-    {#<a href="{{ path('app_lesson_new', {'course': course}) }}">Добавить урок</a>#}
-
-    {{ include('course/_delete_form.html.twig') }}
+    <div class="d-flex">
+        <a href="{{ path('app_course_index') }}" type="button" class="btn btn-primary mx-1">
+            <strong>К списку курсов</strong>
+        </a>
+        <a href="{{ path('app_course_edit', {'id': course.id}) }}" type="button" class="btn btn-secondary mx-1">
+            <strong>Редактировать</strong>
+        </a>
+        {{ include('course/_delete_form.html.twig') }}
+        <a href="{{ path('app_course_new_lesson', {'course': course.id}) }}" type="button" class="btn btn-primary mx-1">
+            <strong>Добавить урок</strong>
+        </a>
+    </div>
 {% endblock %}

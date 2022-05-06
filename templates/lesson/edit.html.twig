@@ -1,13 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Редактирование урока "{{ lesson.nameLesson }}"{% endblock %}
+{% block title %} {{ lesson.nameLesson }} / {{ lesson.idCourse.nameCourse }} / StudyOn {% endblock %}
 
 {% block body %}
-    <h1>Редактировать урок</h1>
+    <h1 class="fw-bold mb-5 mt-5">{{ lesson.nameLesson }}</h1>
 
-    {{ include('lesson/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_lesson_index') }}">back to list</a>
-
-    {{ include('lesson/_delete_form.html.twig') }}
+    <div class="container">
+        <div class="d-flex">
+            <p>Курс:</p>
+            <a href="{{ path('app_course_show', {'id': lesson.idcourse.id }) }}" class="text-decoration-none mx-4">
+                {{ lesson.idCourse.nameCourse }}
+            </a>
+        </div>
+        {{ include('lesson/_form.html.twig', {'button_label': 'Сохранить'}) }}
+    </div>
+    <hr class="mt-5">
+    <a href="{{ path('app_lesson_show', {'id': lesson.idCourse.id }) }}" type="button" class="btn btn-danger"
+       onclick="return confirm('Вы уверены, что хотите отменить изменения?');">
+        <strong>Отменить</strong>
+    </a>
 {% endblock %}

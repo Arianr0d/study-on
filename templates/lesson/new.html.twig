@@ -1,10 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Lesson{% endblock %}
+{% block title %}Новый урок / {{ lesson.idCourse.nameCourse }} {% endblock %}
 
 {% block body %}
-    <h1>Создать новый урок</h1>
+    <h1 class="fw-bold mb-5 mt-5">Добавить новый урок</h1>
 
-    {{ include('lesson/_form.html.twig') }}
-    <a href="{{ path('app_course_show', {'id': lesson.idCourse.id }) }}">Назад</a>
+    <div class="container">
+        {{ include('lesson/_form.html.twig') }}
+    </div>
+
+    <hr class="mt-5">
+
+    <a href="{{ path('app_course_show', {'id': lesson.idCourse.id }) }}" type="button" class="btn btn-danger"
+       onclick="return confirm('Вы уверены, что хотите отменить изменения?');">
+        <strong>Отменить</strong>
+    </a>
 {% endblock %}

@@ -1,5 +1,5 @@
 {{ form_start(form) }}
+    {{ form_errors(form) }}
     {{ form_widget(form) }}
-    <br>
-    <button class="btn">{{ button_label|default('Сохранить') }}</button>
+    <button type="submit" class="btn btn-success"><strong>{{ button_label|default('Сохранить') }}</strong></button>
 {{ form_end(form) }}

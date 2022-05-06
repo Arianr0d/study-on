@@ -35,7 +35,7 @@ class LessonController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $lessonRepository->add($lesson);
-            return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_course_show', ['id' => $lesson->getIdCourse()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('lesson/edit.html.twig', [
@@ -49,10 +49,11 @@ class LessonController extends AbstractController
      */
     public function delete(Request $request, Lesson $lesson, LessonRepository $lessonRepository): Response
     {
+        $courseId = $lesson->getIdCourse()->getId();
         if ($this->isCsrfTokenValid('delete'.$lesson->getId(), $request->request->get('_token'))) {
             $lessonRepository->remove($lesson);
         }
 
-        return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_course_show', ["id" => $courseId], Response::HTTP_SEE_OTHER);
     }
 }

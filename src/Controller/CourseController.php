@@ -94,7 +94,7 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/lessons/newLesson/", name="app_lesson_new", methods={"GET", "POST"})
+     * @Route("/{course}/lessons/newLesson/", name="app_course_new_lesson", methods={"GET", "POST"})
      */
     public function newLesson(Request $request, LessonRepository $lessonRepository, Course $course): Response
     {

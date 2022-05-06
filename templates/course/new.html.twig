@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Добавление курса{% endblock %}
+{% block title %}Новый курс / StudyOn{% endblock %}
 
 {% block body %}
-    <h1>Добавить курс</h1>
+    <h1 class="fw-bold mb-5 mt-5">Добавить новый курс</h1>
 
-    {{ include('course/_form.html.twig') }}
+    <div class="container">
+        {{ include('course/_form.html.twig') }}
+    </div>
 
-    <a href="{{ path('app_course_index') }}">К списку курсов</a>
+    <hr class="mt-5">
+
+    <a href="{{ path('app_course_index') }}" type="button" class="btn btn-danger mx-1"
+       onclick="return confirm('Вы уверены, что хотите отменить изменения?');">
+        <strong>Отменить</strong>
+    </a>
 {% endblock %}
