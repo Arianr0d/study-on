@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use Symfony\Component\Yaml\Yaml;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Course;

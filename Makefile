@@ -13,7 +13,7 @@ encore_dev:
 	@${COMPOSE} run node npm run dev
 
 encore_prod:
-	@${COMPOSE} run node npm run production
+	@${COMPOSE} run node npm run build
 
 clear:
 	@${CONSOLE} cache:clear
@@ -26,6 +26,10 @@ migrate:
 
 fixtload:
 	@${CONSOLE} doctrine:fixtures:load
+
+phpunit:
+	@${PHP} bin/phpunit
+
 
 # В файл local.mk можно добавлять дополнительные make-команды,
 # которые требуются лично вам, но не нужны на проекте в целом
