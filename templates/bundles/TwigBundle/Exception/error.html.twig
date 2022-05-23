@@ -1,11 +1,13 @@
-{# templates/bundles/TwigBundle/Exception/error403.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block body %}
     <div class="container mt-5">
-        <h1 class="text-danger mb-3">Ошибка 403</h1>
-        <h2>Доступ к данной странице запрещён!</h2>
+        <div class="error-template">
+            <h1>Oops!</h1>
+            <h2>{{ status_code }} {{ status_text }}</h2>
+        </div>
     </div>
+
     <a href="{{ path('app_course_index') }}" type="button" class="btn btn-primary mx-1">
         <strong>К списку курсов</strong>
     </a>

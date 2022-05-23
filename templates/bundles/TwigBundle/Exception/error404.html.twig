@@ -2,10 +2,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Page not found</h1>
-
-    <p>
-        The requested page couldn't be located. Checkout for any URL
-        misspelling or <a href="{{ path('homepage') }}">return to the homepage</a>.
-    </p>
+    <div class="container mt-5">
+        <h1 class="text-danger mb-3">Ошибка 404</h1>
+        <ul>
+            <li>Страница сайта была удалена или перемещена;</li>
+            <li>Запрошенный ресурс отсутствует, так как его адрес был введен неверно;</li>
+        </ul>
+    </div>
+    <a href="{{ path('app_course_index') }}" type="button" class="btn btn-primary mx-1">
+        <strong>К списку курсов</strong>
+    </a>
 {% endblock %}
