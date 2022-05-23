@@ -25,7 +25,7 @@
             <strong>Редактировать</strong>
         </a>
         {{ include('course/_delete_form.html.twig') }}
-        <a href="{{ path('app_course_new_lesson', {'course': course.id}) }}" type="button" class="btn btn-primary mx-1">
+        <a href="{{ path('app_course_new_lesson', {'course': course.id}) }}" type="button" class="btn btn-primary mx-1 lesson-add">
             <strong>Добавить урок</strong>
         </a>
     </div>
