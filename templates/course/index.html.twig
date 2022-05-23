@@ -7,14 +7,14 @@
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for course in courses %}
-            <div class="col">
+            <div class="col course-card">
                 <div class="card h-100">
                     <div class="card-body">
                         <h4 class="card-title">{{ course.nameCourse }}</h4>
                         <p class="card-text">{{ course.descriptionCourse }}</p>
                     </div>
                     <div class="card-footer">
-                        <a href="{{ path('app_course_show', {'id': course.id}) }}" class="btn btn-primary w-10"><strong>Перейти</strong></a>
+                        <a href="{{ path('app_course_show', {'id': course.id}) }}" class="btn btn-primary w-10 course-link"><strong>Перейти</strong></a>
                     </div>
                 </div>
             </div>
@@ -23,5 +23,5 @@
         {% endfor %}
     </div>
     <hr class="mt-5">
-    <a href="{{ path('app_course_new') }}" type="button" class="btn btn-secondary mb-5"><strong>Новый курс</strong></a>
+    <a href="{{ path('app_course_new') }}" type="button" class="btn btn-secondary mb-5 new-course-link"><strong>Новый курс</strong></a>
 {% endblock %}

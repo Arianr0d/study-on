@@ -21,7 +21,7 @@
         <a href="{{ path('app_course_index') }}" type="button" class="btn btn-primary mx-1">
             <strong>К списку курсов</strong>
         </a>
-        <a href="{{ path('app_course_edit', {'id': course.id}) }}" type="button" class="btn btn-secondary mx-1">
+        <a href="{{ path('app_course_edit', {'id': course.id}) }}" type="button" class="btn btn-secondary mx-1 course-edit">
             <strong>Редактировать</strong>
         </a>
         {{ include('course/_delete_form.html.twig') }}

@@ -8,6 +8,11 @@ use App\Tests\Functional\AbstractTest;
 
 class LessonTest extends AbstractTest
 {
+    protected function getFixtures(): array
+    {
+        return [CourseAndLessonsFixture::class];
+    }
+
     public function testSomething(): void
     {
         $client = AbstractTest::getClient();
