@@ -35,7 +35,7 @@ class Course
     private $descriptionCourse;
 
     /**
-     * @ORM\OneToMany(targetEntity=Lesson::class, cascade={"remove"}, mappedBy="idCourse")
+     * @ORM\OneToMany( mappedBy="idCourse", targetEntity="Lesson", cascade = {"persist"}, orphanRemoval = true)
      * @ORM\OrderBy({"numberLesson" = "ASC"})
      */
     private $lessons;

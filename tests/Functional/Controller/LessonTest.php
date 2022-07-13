@@ -14,13 +14,6 @@ class LessonTest extends AbstractTest
         return [CourseAndLessonsFixture::class];
     }
 
-    public function urlNotFound() {
-        yield['/lessons/'];
-    }
-    public function urlInternalServerError() {
-        yield['lessons/new'];
-    }
-
     public function testResponseLessonPages(): void {
         $client = AbstractTest::getClient();
         $courseRepository = self::getEntityManager()->getRepository(Course::class);
@@ -42,30 +35,12 @@ class LessonTest extends AbstractTest
         }
     }
 
-    public function testUrlSuccess($url): void {
-        $client = AbstractTest::getClient();
-        $client->request('GET', $url);
-        $this->assertResponseOk();
-    }
-
-    public function testUrlNotFound($url): void {
-        $client = AbstractTest::getClient();
-        $client->request('GET', $url);
-        $this->assertResponseNotFound();
-    }
-
-    public function testUrlInternalServerError($url) {
-        $client = AbstractTest::getClient();
-        $client->request('GET', $url);
-        $this->assertResponseCode(500);
-    }
-
     public function testInsertLessonWithBlank() : void {
 
         // проверка перехода на стартовую страницу сайта
         $client = AbstractTest::getClient();
         $crawler = $client->request('GET', '/courses/');
-        $this->assertResponseRedirect();
+        $this->assertResponseOk();
 
         // проверка перехода на страницу курса
         $link = $crawler->filter('.course-link')->first()->link();
@@ -85,7 +60,7 @@ class LessonTest extends AbstractTest
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение не может быть пустым!', $error->text());
+        $this->assertEquals('Error This value should not be blank.', $error->text());
 
         // проверка на пустоту поля с описанием урока
         $buttonSave = $crawler->selectButton('Сохранить');
@@ -96,7 +71,7 @@ class LessonTest extends AbstractTest
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение не может быть пустым!', $error->text());
+        $this->assertEquals('Error This value should not be blank.', $error->text());
 
         // проверка на пустоту поля с номером урока
         $buttonSave = $crawler->selectButton('Сохранить');
@@ -107,7 +82,7 @@ class LessonTest extends AbstractTest
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение не может быть пустым!', $error->text());
+        $this->assertEquals('Error This value should not be blank.', $error->text());
     }
 
     public function testInsertCourseWithInvalidLength() : void {
@@ -137,7 +112,7 @@ class LessonTest extends AbstractTest
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение не должно превышать 255 символов!', $error->text());
+        $this->assertEquals('Error This value is too long. It should have 255 characters or less.', $error->text());
 
         // проверка на значение введённого номера урока
         $submitButton = $crawler->selectButton('Сохранить');
@@ -148,7 +123,7 @@ class LessonTest extends AbstractTest
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение должно быть больше 1 и не должно превышать 10000!', $error->text());
+        $this->assertEquals('Error This value should be between 1 and 10000.', $error->text());
     }
 
     public function testLessonDeleteAfterCourse() : void {
@@ -185,7 +160,9 @@ class LessonTest extends AbstractTest
         $crawler = $client->click($courseLink);
         $this->assertResponseOk();
 
-        $lessonLink = $crawler->filter('.list-group-item > a')->first()->link();
+        $lessonLinks = $crawler->filter('.list-group-item > a');
+        $lessonCount = $lessonLinks->count();
+        $lessonLink = $lessonLinks->first()->link();
         $crawler = $client->click($lessonLink);
         $this->assertResponseOk();
 
@@ -194,11 +171,11 @@ class LessonTest extends AbstractTest
         self::assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
         $this->assertResponseOk();
-        self::assertCount(3, $crawler->filter('.list-group-item'));
+        self::assertCount($lessonCount - 1, $crawler->filter('.list-group-item > a'));
     }
 
     public function testLessonUpdate(): void {
-        $client = AbstractTest::getClient();
+        $client = self::getClient();
         $crawler = $client->request('GET', '/courses/');
         $this->assertResponseOk();
 
@@ -206,6 +183,7 @@ class LessonTest extends AbstractTest
         $crawler = $client->click($link);
         $this->assertResponseOk();
 
+        $courseName = $crawler->filter('.card_title')->first()->text();
         $linkLesson = $crawler->filter('.list-group-item > a')->first()->link();
         $crawler = $client->click($linkLesson);
         $this->assertResponseOk();
@@ -216,14 +194,19 @@ class LessonTest extends AbstractTest
 
         $submitButton = $crawler->selectButton('Сохранить');
         $form = $submitButton->form();
-        $course = self::getEntityManager()->getRepository(Course::class)
-            ->findOneBy(['id' => $form['lesson[idCourse]']->getValue()]);
+        $course = self::getEntityManager()
+            ->getRepository(Course::class)
+            ->findOneBy(['nameCourse' => $courseName]);
         $form['lesson[nameLesson]'] = 'Измененное название урока';
         $form['lesson[contentLesson]'] = 'Измененное описание урока';
-        $form['lesson[numberLesson]'] = 13;
+        $form['lesson[numberLesson]'] = 100;
         $client->submit($form);
-        self::assertTrue($client->getResponse()->isRedirect());
+        self::assertTrue($client->getResponse()->isRedirect('/courses/' . $course->getId()));
         $crawler = $client->followRedirect();
+        $this->assertResponseOk();
+
+        $lessonEdit = $crawler->filter('.list-group-item > a')->last()->link();
+        $crawler = $client->click($lessonEdit);
         $this->assertResponseOk();
 
         // проверка изменения урока

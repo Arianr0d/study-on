@@ -13,7 +13,7 @@ encore_dev:
 	@${COMPOSE} run node npm run dev
 
 encore_prod:
-	@${COMPOSE} run node npm run encore -- prod
+	@${COMPOSE} run node npm run build
 
 clear:
 	@${CONSOLE} cache:clear

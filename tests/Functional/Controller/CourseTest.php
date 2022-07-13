@@ -13,20 +13,6 @@ class CourseTest extends AbstractTest
         return [CourseAndLessonsFixture::class];
     }
 
-    public function urlSuccess() {
-        yield['/courses/'];
-        yield['/courses/new'];
-    }
-
-    public function urlNotFound() {
-        yield['/courses/0'];
-        yield['/random/'];
-    }
-
-    public function urlInternalServerError() {
-        yield['courses/test'];
-    }
-
     public function testResponsePages(): void {
         $client = AbstractTest::getClient();
         $courseRepository = self::getEntityManager()->getRepository(Course::class);
@@ -51,24 +37,6 @@ class CourseTest extends AbstractTest
         $this->assertResponseOk();
     }
 
-    public function testUrlSuccess($url): void {
-        $client = AbstractTest::getClient();
-        $client->request('GET', $url);
-        $this->assertResponseOk();
-    }
-
-    public function testUrlNotFound($url): void {
-        $client = AbstractTest::getClient();
-        $client->request('GET', $url);
-        $this->assertResponseNotFound();
-    }
-
-    public function testUrlInternalServerError($url) {
-        $client = AbstractTest::getClient();
-        $client->request('GET', $url);
-        $this->assertResponseCode(500);
-    }
-
     public function testCountCourses() : void {
         $client = AbstractTest::getClient();
         $crawler = $client->request('GET', '/courses/');
@@ -81,7 +49,6 @@ class CourseTest extends AbstractTest
         $client = AbstractTest::getClient();
         $courseRepository = self::getEntityManager()->getRepository(Course::class);
         $courses = $courseRepository->findAll();
-        self::assertEmpty($courses);
 
         foreach ($courses as $course) {
             $crawler = $client->request('GET', '/courses/'.$course->getId());
@@ -96,7 +63,7 @@ class CourseTest extends AbstractTest
         // проверка перехода на стартовую страницу сайта
         $client = AbstractTest::getClient();
         $crawler = $client->request('GET', '/courses/');
-        $this->assertResponseRedirect();
+        $this->assertResponseOk();
 
         // проверка перехода на страницу с добавлением нового курса
         $link = $crawler->filter('.new-course-link')->link();
@@ -112,7 +79,7 @@ class CourseTest extends AbstractTest
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение не может быть пустым!', $error->text());
+        $this->assertEquals('Error This value should not be blank.', $error->text());
 
         // проверка на пустоту поля с названием курса
         $buttonSave = $crawler->selectButton('Сохранить');
@@ -123,11 +90,11 @@ class CourseTest extends AbstractTest
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение не может быть пустым!', $error->text());
+        $this->assertEquals('Error This value should not be blank.', $error->text());
 
     }
 
-    public function testInsertCourseWithInvalidLength() : void {
+    public function testInsertCourseWithInvalidLengthCodeCourse() : void {
 
         $client = AbstractTest::getClient();
         $crawler = $client->request('GET', '/courses/');
@@ -149,18 +116,47 @@ class CourseTest extends AbstractTest
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение не должно превышать 255 символов!', $error->text());
+        self::assertEquals('Error This value is too long. It should have 255 characters or less.', $error->text());
+    }
 
+    public function testInsertCourseWithInvalidLengthNameCourse() : void {
+
+        $client = AbstractTest::getClient();
+        $crawler = $client->request('GET', '/courses/');
+        $this->assertResponseOk();
+
+        $link = $crawler->filter('.new-course-link')->link();
+        $crawler = $client->click($link);
+        $this->assertResponseOk();
+
+        // проверка на длину введённого кода курса
+        $submitButton = $crawler->selectButton('Сохранить');
         // проверка на длину введённого названия курса
         $form = $submitButton->form([
             'course[codeCourse]' => 'TEST',
-            'course[nameCourse]' => 'Тестовый курс',
+            'course[nameCourse]' => 'TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST'.
+                'TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST'.
+                'TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST'.
+                'TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST',
             'course[descriptionCourse]' => 'Описание тестового курса'
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение не должно превышать 255 символов!', $error->text());
+        self::assertEquals('Error This value is too long. It should have 255 characters or less.', $error->text());
+    }
 
+    public function testInsertCourseWithInvalidLengthDescriptionCourse() : void {
+
+        $client = AbstractTest::getClient();
+        $crawler = $client->request('GET', '/courses/');
+        $this->assertResponseOk();
+
+        $link = $crawler->filter('.new-course-link')->link();
+        $crawler = $client->click($link);
+        $this->assertResponseOk();
+
+        // проверка на длину введённого кода курса
+        $submitButton = $crawler->selectButton('Сохранить');
         // проверка на длину введённого описания курса
         $form = $submitButton->form([
             'course[codeCourse]' => 'TEST',
@@ -185,29 +181,7 @@ class CourseTest extends AbstractTest
         ]);
         $crawler = $client->submit($form);
         $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Значение не должно превышать 1000 символов!', $error->text());
-    }
-
-    public function testInsertCourseWithNotUniqueCode() : void {
-
-        $client = AbstractTest::getClient();
-        $crawler = $client->request('GET', '/courses/');
-        $this->assertResponseOk();
-
-        $link = $crawler->filter('.new-course-link')->link();
-        $crawler = $client->click($link);
-        $this->assertResponseOk();
-
-        // проверка на уникальность кода курса
-        $submitButton = $crawler->selectButton('Сохранить');
-        $form = $submitButton->form([
-            'course[codeCourse]' => '01.02',
-            'course[nameCourse]' => 'Тестовый курс',
-            'course[descriptionCourse]' => 'Описание тестового курса'
-        ]);
-        $crawler = $client->submit($form);
-        $error = $crawler->filter('.invalid-feedback')->first();
-        $this->assertEquals('Указанный код курса уже используется!', $error->text());
+        self::assertEquals('Error This value is too long. It should have 1000 characters or less.', $error->text());
     }
 
     public function testCourseDelete() : void {
@@ -255,19 +229,18 @@ class CourseTest extends AbstractTest
         $course = self::getEntityManager()
             ->getRepository(Course::class)
             ->findOneBy(['codeCourse' => $form['course[codeCourse]']->getValue()]);
-
         $form['course[codeCourse]'] = 'TestEditCodeCourse';
         $form['course[nameCourse]'] = 'Изменение названия тестового курса';
-        $form['course[descriptionCourse]'] = 'Изменение описания тестового курс';
+        $form['course[descriptionCourse]'] = 'Изменение описания тестового курса';
         $client->submit($form);
         self::assertTrue($client->getResponse()->isRedirect('/courses/' . $course->getId()));
         $crawler = $client->followRedirect();
         $this->assertResponseOk();
 
         // проверка изменения курса
-        $courseName = $crawler->filter('.card-title')->text();
-        self::assertEquals('Измененный курс', $courseName);
-        $courseDescription = $crawler->filter('.card-text')->text();
-        self::assertEquals('Измененный курс', $courseDescription);
+        $courseName = $crawler->filter('.card_title')->text();
+        self::assertEquals('Изменение названия тестового курса', $courseName);
+        $courseDescription = $crawler->filter('.card_text')->text();
+        self::assertEquals('Изменение описания тестового курса', $courseDescription);
     }
 }
