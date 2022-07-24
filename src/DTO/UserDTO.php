@@ -67,7 +67,7 @@ class UserDTO
 
     public function setBalance(?float $balance): void
     {
-        $this->roles = $balance;
+        $this->balance = $balance;
     }
 
     public function getToken(): ?string

@@ -8,10 +8,10 @@ class CredUserDTO
     /**
      * @Serializer\Type("string")
      */
-    private $username;
+    public $username;
 
     /**
      * @Serializer\Type("string")
      */
-    private $password;
+    public $password;
 }

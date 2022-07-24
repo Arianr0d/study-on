@@ -44,7 +44,7 @@ class BillingClient
         }
     }
 
-    /*public function userRegister($credentialsObject): AppUser
+    public function userRegister($credentialsObject): AppUser
     {
         $credentials = $this->serializer->serialize($credentialsObject, 'json');
         $qm = new ApiManager(
@@ -80,5 +80,5 @@ class BillingClient
             throw new BillingUnavailableException($arrayResponse['error']);
         }
         return $this->serializer->deserialize($jsonResponse, UserDTO::class, 'json');
-    }*/
+    }
 }

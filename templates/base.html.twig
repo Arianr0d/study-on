@@ -19,6 +19,17 @@
                 <a class="navbar-brand mx-5" href="{{ path('app_course_index') }}">
                     <h3>StudyOn</h3>
                 </a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div class="mx-5">
+                        <a class="mx-2" href="{{ path('app_profile') }}">Профиль</a>
+                        <a class="mx-2" href="{{ path('app_logout') }}">Выйти</a>
+                    </div>
+                {% else  %}
+                    <div class="mx-5">
+                        <a class="mx-2" href="{{ path('app_login') }}">Войти</a>/
+                        <a class="mx-2" href="{{ path('app_register') }}">Зарегистрироваться</a>
+                    </div>
+                {% endif %}
                 {#{% block actions %}
                 {% endblock %}#}
             </div>

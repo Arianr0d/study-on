@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Зарегистрироваться!{% endblock %}
+
+{% block body %}
+
+    <h1 class="h3 mb-3 font-weight-normal mt-5">Регистрация пользователя:</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <hr class="mt-5">
+    <button class="btn btn-success" type="submit">{{ button_label|default('Зарегистрироваться') }}</button>
+    <a href="{{ path('app_course_index') }}" type="button" class="btn btn-secondary mx-1">
+        <strong>На главную</strong>
+    </a>
+    {{ form_end(form) }}
+{% endblock %}

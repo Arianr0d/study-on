@@ -23,5 +23,7 @@
         {% endfor %}
     </div>
     <hr class="mt-5">
-    <a href="{{ path('app_course_new') }}" type="button" class="btn btn-secondary mb-5 new-course-link"><strong>Новый курс</strong></a>
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <a href="{{ path('app_course_new') }}" type="button" class="btn btn-secondary mb-5 new-course-link"><strong>Новый курс</strong></a>
+    {% endif %}
 {% endblock %}

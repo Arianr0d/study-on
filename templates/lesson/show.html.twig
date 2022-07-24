@@ -9,12 +9,14 @@
         <p>Курс:</p>
         <a href="{{ path('app_course_show', {'id': lesson.idcourse.id }) }}" class="text-decoration-none mx-4">{{ lesson.idCourse.nameCourse }}</a>
     </div>
-    <div class="d-flex">
-        <a href="{{ path('app_lesson_edit', {'id': lesson.id}) }}" type="button" class="btn btn-secondary mx-1 lesson-edit">
-            <strong>Редактировать</strong>
-        </a>
-        {{ include('lesson/_delete_form.html.twig') }}
-    </div>
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <div class="d-flex">
+            <a href="{{ path('app_lesson_edit', {'id': lesson.id}) }}" type="button" class="btn btn-secondary mx-1 lesson-edit">
+                <strong>Редактировать</strong>
+            </a>
+            {{ include('lesson/_delete_form.html.twig') }}
+        </div>
+    {% endif %}
 
     <hr class="mt-5">
     <div class="card">
