@@ -12,6 +12,8 @@ class AppUser implements UserInterface
 
     private $apiToken;
 
+    private $refreshToken;
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -100,5 +102,21 @@ class AppUser implements UserInterface
         $this->apiToken = $apiToken;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefreshToken()
+    {
+        return $this->refreshToken;
+    }
+
+    /**
+     * @param mixed $refreshToken
+     */
+    public function setRefreshToken($refreshToken): void
+    {
+        $this->refreshToken = $refreshToken;
     }
 }

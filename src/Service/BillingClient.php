@@ -81,4 +81,22 @@ class BillingClient
         }
         return $this->serializer->deserialize($jsonResponse, UserDTO::class, 'json');
     }
+
+    public function refreshToken($refreshToken)
+    {
+        $qm = new ApiManager(
+            '/api/v1/token/refresh',
+            'POST',
+            [
+                'Content-Type: application/json'
+            ],
+            ['refresh_token' => $refreshToken]
+        );
+        $jsonResponse = $qm->exec();
+        $result = json_decode($jsonResponse, true, 512, JSON_PARTIAL_OUTPUT_ON_ERROR);
+        if (isset($result['errors'])) {
+            throw new BillingUnavailableException(json_encode($result['errors']));
+        }
+        return $this->serializer->deserialize($jsonResponse, 'array', 'json');
+    }
 }
